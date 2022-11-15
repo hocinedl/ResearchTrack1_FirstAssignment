@@ -3,27 +3,50 @@ from __future__ import print_function
 import time
 from sr.robot import *
 
-"""rlength = R.info.length
-
-def rotate(speed,angle):
-	s = expresseion
-	turn(speed,s)
-	while(dist<0):
-		turn(5,0.05)
-		dist, rot_y, code_of_token = find_golden_token()
-	rotate(speed,rot_y)
-	goto(speed,dist)
-"""
-
-a_th = 1.5
-d_th = 0.4
-silver= True
-
 R = Robot()
+a_th = 1.5 # The threshold for controlling the linear distance
+d_th = 0.4 # The threshold for controlling the orientation
 
-silverList = []
 
-goldenList = []
+silverList = [] # a list to count the number of silver tokens grabbed and save their codes.
+goldenList = [] # a list to count the number of golden tokens and save their codes.
+
+def silver_grabber(rot_y,dist,code_of_token):
+
+    """This function works using the distance and orientation returned by the 
+    function 'find_silver_token' and it tends to update the distatnce and the orientation of the 
+    silver token each time using the functions turn and drive to reach the box. and also it is used to grab
+    the token and append the list of silver tokens"""
+
+    while (rot_y >= a_th or rot_y<=-a_th) : 
+        turn(sign(rot_y-a_th) * 10,0.001)
+        dist, rot_y,code_of_token = find_silver_token()
+    while (dist >= d_th) :
+        drive(30,0.01)
+        dist, rot_y, code_of_token = find_silver_token()
+    silverList.append(code_of_token)
+    print("Got you silver box number:",len(silverList))
+    R.grab()
+    turn(20,0.1)
+    
+    
+
+def go_to_golden_and_release(rot_y,dist,code_of_token):
+    """This function works with the same principle of the function silver grabber, except 
+    that it search for the nearest golden box and release the silver box near it """
+    while(dist<0):
+        turn(-5,0.01)
+        dist, rot_y, code_of_token = find_golden_token()
+    while (rot_y >= a_th or rot_y<=-a_th) :
+        turn(sign(rot_y-a_th) * 10,0.001)
+        dist, rot_y, code_of_token= find_golden_token()
+    while (dist >= 1.5*d_th) :
+        drive(40,0.01)
+        dist, rot_y, code_of_token= find_golden_token()
+    R.release()
+    goldenList.append(code_of_token)
+    print("Found you golden box number:",len(goldenList))
+    drive(-30,0.8)
 
 def drive(speed, seconds):
 	R.motors[0].m0.power = speed
@@ -36,8 +59,6 @@ def sign(a):
 		return -1
 	else:
 		return 1
-
-
 def turn(speed, seconds):
 	R.motors[0].m0.power = speed
 	R.motors[0].m1.power = -speed
@@ -54,8 +75,7 @@ def find_silver_token():
 			code_of_token=token.info.code
 	if dist==100:
 		return -1, -1 ,-1
-	else:
-		print("Silver token N': ", code_of_token)    
+	else:    
 		return dist, rot_y, code_of_token
 
 def find_golden_token():
@@ -69,53 +89,36 @@ def find_golden_token():
 	if dist==100:
 		return -1, -1, -1
 	else:
-		print("Golden token N': ", code_of_token)
+		
 		return dist, rot_y, code_of_token
 
-   	
-   	
-#turn(20,1)
-drive(30,2)
-while (len(silverList)<6):
-	dist, rot_y, code_of_token = find_silver_token()
-	
-	if dist==-1:
-		turn(10,0.1)
-		continue
-	while (rot_y >= a_th or rot_y<=-a_th) : #make it as a function that detects silver token orientation and update the angle rot_y. and same for other loops. make one loop that do all of this 
-		turn(sign(rot_y-a_th) * 10,0.001)
-		dist, rot_y,code_of_token = find_silver_token()
-		
-	while (dist >= d_th) :
-		drive(30,0.01)
-		dist, rot_y, code_of_token = find_silver_token()
-	
-	print("Trying to see u")	
-	#if code_of token == 
-	R.grab()
-	print("Got you")
-	silverList.append(code_of_token)
-	#turn(30,1)
-	print("Lets find your pair from golden boxes arround")
-	dist, rot_y, code_of_token = find_golden_token()
-	while(dist<0):
-		turn(5,0.01)
-		dist, rot_y, code_of_token = find_golden_token()
-	while (rot_y >= a_th or rot_y<=-a_th) :
-		turn(sign(rot_y-a_th) * 10,0.001)
-		dist, rot_y, code_of_token= find_golden_token()
-	while (dist >= 1.7*d_th) :
-		drive(40,0.01)
-		dist, rot_y, code_of_token= find_golden_token()
-	R.release()
-	drive(-30,0.1)
-	goldenList.append(code_of_token)
-	turn(20,2)		
-turn(20,1)
-drive(30,2)	
-   	
-   	
-   	
+def main():
+
+    #drive(30,2)
+    while (len(goldenList)<6):
+        """Let's start our task by finding the silver box using the following function"""
+        dist, rot_y, code_of_token = find_silver_token()
+        """This if statement to make the robot turn until it found a silver box"""
+        if dist==-1:
+            turn(10,0.1)
+            continue
+        """Now we have the orientation and the distance of the closest silver box so we ask
+        the robot to go and grab it"""
+        silver_grabber(rot_y,dist,code_of_token)
+        print("Lets pair you with one of the golden boxes arround")
+        """Now let's find a golden box"""
+        dist, rot_y, code_of_token = find_golden_token()
+        """Now we have the orientation and the distance of the closest golden box so we ask
+        the robot to go and release the silver box near to it"""
+        go_to_golden_and_release(rot_y,dist,code_of_token)
+        print("")		
+    drive(-30,2)
+    turn(20,0.5)
+    print("Mission done")
+            
+            
+main()          
+            
    	
   
 	
