@@ -3,6 +3,14 @@ RT1_Assignment #1
 
 This repository contains my solution for the first assignment of RT1 in which we were asked to make a robot grabs silver boxes and place them near golden boxer, making pairs of silver and golden boxes. So we should have at the end 6 pairs of Silver Golden Boxes.
 
+### Global variables:
+
+a_th : The threshold for controlling the linear distance
+d_th : The threshold for controlling the orientation
+
+silverList = [] : List contains the codes of silver boxes.
+goldenList = [] : List contains the codes of golden boxes.
+
 The code is composed of different functions that I created:
 
 ### Drive and Turn functions:
