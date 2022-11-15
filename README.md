@@ -21,16 +21,16 @@ These two functions are the same of exercice 1, they're functions that make the 
 This function tries to find the nearest silver box, by updating the distance of nearest silver non paired (not in List) token..
 <pre>
 find_silver_token():
- 	dist=100
+ 	Initialize distance to 100
  	for token in R.see():
-		 if token.dist < dist and Type of token is Silver and Token is not in silverList:
-			 dist=token.dist
-			 rot_y=token.rot_y
-			 code_of_token=token.info.code
-	 if dist==100:
+		 if token_distance less than distance and Type of token is Silver and Token is not in silverList:
+			 distance=token_distance
+			 rotation=token_rotation
+			 code_of_token=token_code
+	 if distance is equal 100
 		 return -1, -1 ,-1
  	else:    
-		 return dist, rot_y, code_of_token
+		 return distance, rotation, code_of_token
 </pre>
 Same principle for the function find_golden_token
 
@@ -42,11 +42,11 @@ we call the function by passing the 3 arguments returned by the function find_si
 
 <pre>
     while (Robot Not in the right orientation): 
-        turn(sign(rot_y-a_th) * 10,0.001) #we use the sign in order to turn it depending on the orientation needed
-        return dist, orientation, code of the box
+        turn the robot
+        return distance, orientation, code of the box
     while (Robot is Far from Box) :
-        drive_forward(30,0.01)
-        return dist, orientation, code of the box
+        drive the robot forward
+        return distance, orientation, code of the box
     Append silverList
     R.grab()
 </pre>
@@ -58,15 +58,15 @@ After the silver box has been grabbed, we need to find the closest golden box to
 It is compsed of loops for which each loop update the distance or the orientation.
 
 <pre>
-   while(dist<0):
-        turn(-5,0.01)
-        return dist, orientation, code of the box
+   while(distance is less than 0):
+        turn the robot
+        return distance, orientation, code of the box
     while (Robot Not in correct orientation) :
-        turn(sign(rot_y-a_th) * 10,0.001)
-        return dist, orientation, code of the box
+        turn the robot
+        return distance, orientation, code of the box
     while (Robot is Far from Box) :
-        drive_forward(40,0.01)
-        return dist, orientation, code of the box
+        drive the robot forward
+        return distance, orientation, code of the box
     R.release_Token()
     Append goldenList
 </pre>
@@ -78,7 +78,7 @@ It is compsed of loops for which each loop update the distance or the orientatio
 while (Number_silver_box <6):
         find_silver_token & return dist, orientation;
         if (distance is 100):
-            turn(10,0.1)
+            turn the robot
             continue (find_silver)
             
         silver_grabber(rot_y,dist,code_of_token)
