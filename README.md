@@ -90,5 +90,5 @@ while (Number_silver_box <6):
     
 </pre>
 
-### The link for the Flowchart:
-[The First Assignment Flowchart](https://drive.google.com/file/d/14NtOxaicDS87whEtD8bkOSqdCr2F6GDI/view?usp=sharing).
+### The Flowcharts:
+I add to my repository 3 PNG files that contain the flowchart of the main function of the code and silver grabber function and the function that make the robot goes to the golden box and release the silver.
