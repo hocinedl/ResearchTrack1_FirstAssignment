@@ -18,10 +18,13 @@ def silver_grabber(rot_y,dist,code_of_token):
     silver token each time using the functions turn and drive to reach the box. and also it is used to grab
     the token and append the list of silver tokens"""
 
-    while (rot_y >= a_th or rot_y<=-a_th) : 
-        turn(sign(rot_y-a_th) * 10,0.001)
+    while(dist<0):   #This loop works if the silver boxes are too far from the robot, so the loop makes the robot turn untill it finds a token.
+        turn(-5,0.01)
+        dist, rot_y, code_of_token = find_silver_token()
+    while (rot_y >= a_th or rot_y<=-a_th) : #This loop tries to find the exact orientation of the silver box
+        turn(sign(rot_y-a_th) * 10,0.001) #I used the sign to make the robot turn with the right orientation
         dist, rot_y,code_of_token = find_silver_token()
-    while (dist >= d_th) :
+    while (dist >= d_th) : #This loop drives the robot to the silver token.
         drive(30,0.01)
         dist, rot_y, code_of_token = find_silver_token()
     silverList.append(code_of_token)
@@ -68,7 +71,7 @@ def turn(speed, seconds):
 
 def find_silver_token():
 	dist=100
-	for token in R.see():
+	for token in R.see(): # if the robot can see the token, it checks if it's silver and it is not already grabbed (not in list of silver boxes)
 		if token.dist < dist and token.info.marker_type is MARKER_TOKEN_SILVER and token.info.code not in silverList:
 			dist=token.dist
 			rot_y=token.rot_y
@@ -81,7 +84,7 @@ def find_silver_token():
 def find_golden_token():
 
 	dist=100
-	for token in R.see():
+	for token in R.see(): # if the robot sees the token, it checks if it's golden and it has no silver box paired with it (not in list of golden boxes)
 		if token.dist < dist and token.info.marker_type is MARKER_TOKEN_GOLD and token.info.code not in goldenList:
 			dist=token.dist
 			rot_y=token.rot_y
@@ -114,7 +117,7 @@ def main():
         print("")		
     drive(-30,2)
     turn(20,0.5)
-    print("Mission done")
+    print("Mission completed")
             
             
 main()          
