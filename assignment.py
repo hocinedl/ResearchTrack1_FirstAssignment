@@ -97,7 +97,7 @@ def find_golden_token():
 
 def main():
 
-    #drive(30,2)
+    
     while (len(goldenList)<6):
         """Let's start our task by finding the silver box using the following function"""
         dist, rot_y, code_of_token = find_silver_token()
