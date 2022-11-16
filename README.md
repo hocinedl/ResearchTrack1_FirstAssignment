@@ -5,13 +5,11 @@ This repository contains my solution for the first assignment of RT1 in which we
 
 ### Global variables:
 
-a_th : The threshold for controlling the linear distance
+a_th : The threshold for controlling the linear distance.
+d_th : The threshold for controlling the orientation.
 
-d_th : The threshold for controlling the orientation
-
-silverList = [] : List contains the codes of silver boxes.
-
-goldenList = [] : List contains the codes of golden boxes.
+silverList = [] : List contains the codes of silver boxes.	
+goldenList = [] : List contains the codes of golden boxes.	
 
 The code is composed of different functions that I created:
 
