@@ -3,6 +3,19 @@ RT1_Assignment #1
 
 This repository contains my solution for the first assignment of RT1 in which we were asked to make a robot grabs silver boxes and place them near golden boxer, making pairs of silver and golden boxes. So we should have at the end 6 pairs of Silver Golden Boxes.
 
+### The Grabber
+
+The robot is equipped with a grabber, capable of picking up a token which is in front of the robot and within 0.4 metres of the robot's centre. To pick up a token, we call the `R.grab` method. The `R.grab` function returns `True` if a token was successfully picked up, or `False` otherwise.
+
+```python
+ R.grab()
+```
+To release the token we use the method:
+
+```python
+ R.release()
+```
+
 ### Global variables:
 
 <br>a_th : The threshold for controlling the linear distance. </br>
